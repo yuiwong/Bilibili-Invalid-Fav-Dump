@@ -4,6 +4,10 @@ import requests
 import re
 import json
 
+#reload(sys)
+#sys.setdefaultencoding('utf-8')
+
+
 agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/68.0.3440.106 Safari/537.36'
 
 fav_list = []
@@ -14,11 +18,11 @@ output_index = 1
 #entry point, parse command line args
 def run():
     if len(sys.argv) < 2:
-        print('Error: Please enter Bilibili user id.')
+        print_f('Error: Please enter Bilibili user id.')
         return
     user_id = int(sys.argv[1])
     if user_id <= 0:
-        print('Error: Please enter a valid Bilibili user id.')
+        print_f('Error: Please enter a valid Bilibili user id.')
         return
     get_fav_videos_from_user(user_id)
 
@@ -53,7 +57,7 @@ def get_fav_folder_list(uid):
         fav_folder_name = fav_folder_obj['name']
         fav_list.append(fav_folder_id)
         fav_name_list.append(fav_folder_name)
-    print('mid={user} has fav folders: {folder}'.format(user=uid, folder=fav_name_list))
+    print_f('mid={user} has fav folders: {folder}'.format(user=uid, folder=fav_name_list))
 
 
 #given a fav folder id, find pages and parse videos info
@@ -65,7 +69,7 @@ def process_fav_folder(uid, fav_list_index):
     resp = get_HTML_text(url, agent)
     responed_jobject = json.loads(resp)
     page_count = responed_jobject['data']['pagecount']
-    print('{favid} has {page} pages.'.format(id=uid,favid=fav_name_list[fav_list_index],page=page_count))
+    print_f('{favid} has {page} pages.'.format(id=uid,favid=fav_name_list[fav_list_index],page=page_count))
 
     video_jobject = responed_jobject['data']['archives']
     fav_folder_content += handle_jobject_per_page(video_jobject, fav_list_index, 1)
@@ -101,7 +105,7 @@ def handle_jobject_per_page(page_jobjects, fav_list_index, page_index):
         s += '注释:\n{desc}\n\n\n'.format(desc=jObject['desc'])    
         page_info += s 
         output_index += 1
-    print('    {}:Page {} has {} valid videos and {} invalid videos, index reach to \'{}\'. '.format(fav_name_list[fav_list_index], page_index, valid_count, invalid_count, output_index))
+    print_f('    {}:Page {} has {} valid videos and {} invalid videos, index reach to \'{}\'. '.format(fav_name_list[fav_list_index], page_index, valid_count, invalid_count, output_index))
     return page_info
 
 #write infos to output file
@@ -109,7 +113,7 @@ def write_output(info):
     file = open('invalidFavVideos.txt', 'w', encoding='utf-8')  
     file.write(info)
     file.close()
-    print("\nDone! Outputing invalid {} videos. Happy holding and have a nice day~ \[T] /\n".format(output_index))
+    print_f("\nDone! Outputing invalid {} videos. Happy holding and have a nice day~ \[T] /\n".format(output_index))
 
 def get_HTML_text(url, agent):
     try:
@@ -121,5 +125,13 @@ def get_HTML_text(url, agent):
     except:
         return ('Error: Unable to query Bilibili server!')
 
+
+def print_f(info):
+    if sys.getdefaultencoding() == 'ascii':
+        info.encode('gb2312')
+        print(info)
+    else:
+        info.encode('utf-8')
+        print(info)
 
 run()
