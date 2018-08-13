@@ -27,6 +27,10 @@
 ```
 
 **详细用法：**
+ - 安装完整的[python运行时](https://www.python.org/downloads/)
+ - 开始菜单-输入cmd 回车
+ - 输入pip install requests
+ - 等待库下载完成。
  - 进入自己在B站的空间，例如：space.bilibili.com/17819768/#/ (数字既为你的mid)
  - 下载InvalidVideos.py到某文件夹
  - 在文件夹中shift+右键，寻找‘在这里打开控制台’类似的命令
