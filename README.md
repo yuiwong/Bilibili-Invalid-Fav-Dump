@@ -32,8 +32,8 @@
  - 输入pip install requests
  - 等待库下载完成。
  - 进入自己在B站的空间，例如：space.bilibili.com/17819768/#/ (数字既为你的mid)
- - 下载InvalidVideos.py到某文件夹
- - 在文件夹中shift+右键，寻找‘在这里打开控制台’类似的命令
+ - 下载InvalidVideos.py到某文件夹，比如C:/misc/
+ - 进入该文件夹，在里边shift+右键，寻找‘在这里打开控制台’类似的命令
  - 在控制台中输入
 ```cmd
   python InvalidVideos.py 17819768
