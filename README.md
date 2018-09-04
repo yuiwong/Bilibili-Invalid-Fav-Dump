@@ -12,6 +12,7 @@
 
 
 **前置需求：**
+ - 所抓取的用户有公开的收藏夹
  - 需要python运行时,直接[官网](https://www.python.org/downloads/)安装
  - 安装requests库
 ```cmd
