@@ -36,7 +36,10 @@ def run():
 def get_fav_videos_from_user(uid):
     get_fav_folder_list(uid)  #get all fav folders, id store to fav_list, names store to fav_name_list
     output = ''
-    for i in range(0, len(fav_list)):                                        #loop all fav folders
+    if len(fav_list) == 0:
+        print_f('user mid={user} don\'t have public fav folders. if you own this mid, make your fav folders public.'.format(user=uid))
+        return
+    for i in range(0, len(fav_list)):                             #loop all fav folders
         s = process_fav_folder(uid, i)                            #current fav folder jObject, constain all video infos 
         output += s 
 
@@ -50,13 +53,14 @@ def get_fav_folder_list(uid):
     resp = get_HTML_text(url, agent)
     responed_jobject = json.loads(resp)
     archive = responed_jobject['data']['archive']
-    
+
     for i in range(0, len(archive)):
         fav_folder_obj = archive[i]
         fav_folder_id = fav_folder_obj['fid']
         fav_folder_name = fav_folder_obj['name']
         fav_list.append(fav_folder_id)
         fav_name_list.append(fav_folder_name)
+
     print_f('mid={user} has fav folders: {folder}'.format(user=uid, folder=fav_name_list))
 
 
@@ -80,7 +84,7 @@ def process_fav_folder(uid, fav_list_index):
         responed_jobject = json.loads(resp)
         video_jobject = responed_jobject['data']['archives']
         fav_folder_content += handle_jobject_per_page(video_jobject, fav_list_index, i)
-    
+
     return fav_folder_content
 
 #each page contains 30 videos, I tried passing 1000, do NOT work. :(
